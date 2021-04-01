@@ -1,63 +1,55 @@
+// Dependencies
 const express = require('express');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
 
+// Modules
+const variables = require('./config/variables')
 const db = require('./config/db.js')
+const users = require('./routes/users')
+const debug = require('./middlewares/debug')
+const auth = require('./middlewares/auth')
 const user = require('./models/user')
 
 const app = express();
 
+// General Middlewares
 app.use(express.json());       // to support JSON-encoded bodies
-app.use(express.urlencoded()); // to support URL-encoded bodies
+app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies
 
-try {
-    db.connect()
-} catch (err) {
-    console.log('No es Posible conectarse a la BD / Error : ', err)
+// Development Middlewares 
+if (variables.env == 'dev'){
+    app.use(debug) //Middleware to get info on console about the request
 }
 
-app.get('/',(req,res)=>{
-    if (!req.query.username){
-        user.find()
-        .then((docs)=>{
-            res.send(docs);
-        }).catch((err)=>
-            res.send({msg:'Ocurrió un error al Consultar los Datos', err})
-        );
-    }else{
-        user.findOne({username:req.query.username})
-        .then((docs)=>{
-            res.send(docs);
-        }).catch((err)=>
-            res.send({msg:'Ocurrió un error al Consultar los Datos',error:err}))
-    }
-    
+db.connect(); // Establish the connection to the DB
+
+app.use('/api/',auth,users)
+
+app.get('/auth',async (req,res)=>{
+    user.findOne({ username:req.body.username }) // Get user by username
+    .then((user)=> {      
+        if (user){    
+            bcrypt.compare(req.body.password, user.password, (err, isMatch)=>{ // Compare given password with stored one
+                if (err) throw err;
+                console.log('La contraseña coincide :', isMatch); 
+                if (isMatch){ //If Match Create an set a cookie with a token wich expires in 60 minutes after that time user must login again
+                    let accessToken = jwt.sign({ username: user.username, role: user.role }, variables.secretTokenJWT, { expiresIn: '60m' })
+                    res.cookie('AuthToken',accessToken)
+                }
+                res.send(isMatch)
+            });
+        }else{
+            res.send(false)
+        }
+    }).catch((err)=>{
+        res.status(401).send(functions.handleError(`Ha ocurrido un error al autenticarse`,err))
+    });
 })
 
-app.post('/',(req,res)=>{
-    let newUser = new user(req.body);
-    newUser.save()
-        .then((r)=>{
-            res.send(r)
-        }).catch((err)=>
-            res.send({msg:'Ocurrió un error al Crear el usuario', error:err})
-        );
-})
+// Init server
+app.listen(variables.port, () => console.log(`Servidor Inicializado en el puerto '${variables.port}'`) );
 
-app.put('/',(req,res)=>{
-    user.updateOne({username:req.query.username},req.body)
-    .then((r)=>{
-        res.send(r)
-    }).catch((err)=>
-        res.send({msg:'Ocurrió un error al Actualizar el usuario', error:err})
-    );
-})
+// Watcher to close the DB connection when the API shuts down
+process.on('SIGINT', db.close).on('SIGTERM', db.close);
 
-app.delete('/',(req,res)=>{
-    user.deleteOne({username:req.query.username})
-    .then((r)=>{
-        res.send(r)
-    }).catch(()=>
-        res.send({msg:'Ocurrió un error al Eliminar el usuario', error:err})
-    );
-})
-
-app.listen(3000,()=>console.log('Servidor Iniciado'));
