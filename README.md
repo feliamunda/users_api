@@ -1,5 +1,5 @@
 <div align="center" id="top"> 
-  <img src="./.github/app.gif" alt="Users API" />
+  <img src="https://i.ibb.co/b5z1mtk/pngegg.png" width=150px alt="Github Logo" />
 
   &#xa0;
 
@@ -17,11 +17,11 @@
 
   <img alt="License" src="https://img.shields.io/github/license/feliamunda/users_api?color=56BEB8">
 
-  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/feliamunda/users_api?color=56BEB8" /> -->
+  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/feliamunda/users_api?color=56BEB8" /> 
 
-  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/feliamunda/users_api?color=56BEB8" /> -->
+  <img alt="Github forks" src="https://img.shields.io/github/forks/feliamunda/users_api?color=56BEB8" /> 
 
-  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/feliamunda/users_api?color=56BEB8" /> -->
+  <img alt="Github stars" src="https://img.shields.io/github/stars/feliamunda/users_api?color=56BEB8" /> -->
 </p>
 
 <!-- Status -->
@@ -53,7 +53,7 @@ Esta es una API para listar usuarios con un CRUD completo para ello y autenticar
 :heavy_check_mark: Escalable\
 :heavy_check_mark: Fácil Lanzamiento\
 :heavy_check_mark: Peristente\
-:heavy_check_mark: JWT;
+:heavy_check_mark: JWT
 
 ## :rocket: Tecnologías ##
 
@@ -68,7 +68,7 @@ Antes de empezar :checkered_flag:, necesita tener [Git](https://git-scm.com) y [
 
 Es necesario configurar algunas variables de entorno:
 
-REQUERIDOS
+REQUERIDAS
 - MONGODB_PASSWORD_ATLAS -> Para la conexión a la BD en producción
 
 OPCIONALES
