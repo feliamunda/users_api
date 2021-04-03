@@ -4,7 +4,7 @@ const express = require("express");
 //Modules
 const user = require("../models/user");
 const functions = require('../functions/functions');
-const { response } = require("express");
+const { errorTypes } = require("../config/constants");
 
 const router = express.Router();
 
@@ -15,10 +15,10 @@ router.get('/',(req,res)=>{                                                     
                 if (docs)
                     res.send(docs);
                 else
-                    res.status(404).send('No existen Usuarios');
+                    res.status(404).send(functions.handleError(errorTypes.notFound.msg,errorTypes.notFound.code));
             },
             (err)=>{
-                res.status(500).send(functions.handleError('Ocurrió un error al consultar los datos', err))
+                res.status(500).send(functions.handleError(errorTypes.default.msg,err))
             }
         )
     }else{ // if Requested info from a single user
@@ -27,10 +27,10 @@ router.get('/',(req,res)=>{                                                     
                 if(doc)
                     res.send(doc);
                 else
-                    res.status(404).send(`El usuario ${req.query.username} no existe`)
+                    res.status(404).send(functions.handleError(errorTypes.notFound.msg,errorTypes.notFound.code))
             },
             (err)=>{
-                res.status(500).send(functions.handleError(`Ocurrió un error al consultar los datos del usuario ${req.query.username}`,err))
+                res.status(500).send(functions.handleError(errorTypes.default.msg,err))
             }
         )
     }
@@ -38,7 +38,7 @@ router.get('/',(req,res)=>{                                                     
 
 router.post('/', async (req,res)=>{                                                                         //Method POST Handler
     let userExists = await user.exists({ $or : [{username: req.body.username},{email:req.body.email}] });   // Check if the username and email is already taken
-    if (userExists) return res.status(400).send("El Usuario ya existe");    
+    if (userExists) return res.status(400).send(functions.handleError(errorTypes.notUnique.msg,errorTypes.notUnique.code));    
     
     let newUser = new user(req.body);
     newUser.save().then(
@@ -48,7 +48,7 @@ router.post('/', async (req,res)=>{                                             
             res.status(201).send(docMod);                                                                    //After Save send the created Doc modified to hide the encripted password
         },
         (err)=>{
-            res.status(500).send(functions.handleError('Ocurrió un error al crear el usuario', err))
+            res.status(500).send(functions.handleError(errorTypes.default.msg,err))
         }
     )
 })
@@ -59,7 +59,7 @@ router.put('/',(req,res)=>{                                                     
             res.status(200).send(r)
         },
         (err)=>{
-            res.status(500).send(functions.handleError('Ocurrió un error al actualizar el usuario', err))
+            res.status(500).send(functions.handleError(errorTypes.default.msg,err))
         }
     )
 })
@@ -70,9 +70,24 @@ router.delete('/',(req,res)=>{                                                  
             res.status(200).send(r)
         },
         (err)=>{
-            res.status(500).send(functions.handleError('Ocurrió un error al crear el usuario', err))
+            res.status(500).send(functions.handleError(errorTypes.default.msg,err))
         }
     )
+})
+
+router.get('/exist',(req,res)=>{                                                                            //Method GET Handler to know if a user exists
+    if (req.query.username){ 
+        user.exists({username:req.query.username}).then(
+            (exist)=>{
+                res.send(exist);    // Send whereas value return from database if the user exists true and if not false 
+            },
+            (err)=>{
+                res.status(500).send(functions.handleError(errorTypes.default.msg,err))
+            }
+        )
+    }else{
+        res.status(400).send(functions.handleError(errorTypes.reqValues.msg,errorTypes.reqValues.code))
+    }
 })
 
 module.exports = router;

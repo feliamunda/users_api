@@ -15,7 +15,23 @@ let userSchema =  new mongoose.Schema({                 //Define User Structure
         trim: true,
         unique: true
     },
-    age: Number,
+    name:{
+        type:String,
+        required:true
+    },
+    lastName:{
+        type:String,
+        required:true
+    },
+    age:{
+        type: Number,
+        required:true,
+        min:0
+    },
+    birthday:{
+        type: Date,
+        required:true,
+    },
     email: {
         type: String,
         required: true,
@@ -40,12 +56,16 @@ const user = mongoose.model('User', userSchema);        //Creates the Model
 user.find()                                             //If the DATABASE is empty create a defaul user
     .then((docs)=>{
         if (docs.length == 0){
-            console.log(docs);
             let userDefault = new user({
-                "username" : "admin",
-                "email":"admin@admin.com",
-                "password" : "admin",
-                "role" : "admin",
+                "username" : "admin",     
+                "email":"admin@test.com",  
+                "name":"Admin",
+                "lastName":"Main",
+                "age": 0 ,
+                "birthday": new Date(1990,05,02).getTime(),                 
+                "password" : "admin",      
+                "role" : "admin", 
+                "active": true
             })
             userDefault.save()
         }
