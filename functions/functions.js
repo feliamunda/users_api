@@ -6,7 +6,6 @@ const handleError = (msg,error)=>{                      //This Function Standari
     let errorWithMsg = {msg, error}
     if (variables.env == 'dev')
         console.error(errorWithMsg);
-    
     return errorWithMsg
 }
 module.exports = {
