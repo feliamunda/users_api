@@ -1,11 +1,21 @@
-/* This Middleware authenticate user by JWT token generated in the /auth route */
-//Dependencies
+/* This Middleware authenticate user by JWT token generated in the /auth path */
+/**************
+ * Dependencies
+ **************/
 const jwt = require('jsonwebtoken');
 const user = require('../models/user')
-//Modules
+/**************
+ * Modules
+ **************/
 const variables = require('../config/variables')
 
-const auth = (req, res, next) => {                                          //Middleware to authenticate users by token
+/**
+ * @function auth               Middleware to authenticate users by JWT token
+ *      @param {Request} req     Request Object
+ *      @param {Response} res    Response Object
+ *      @param {Function} next   next Middleware
+ */
+const auth = (req, res, next) => {                                          
     if (res.locals.exceptionRoutes.includes(req._parsedUrl.pathname)){
         next() ;
     }else{
@@ -24,20 +34,4 @@ const auth = (req, res, next) => {                                          //Mi
         }
     }
 };
-// const isAuthorized  = function(req, res, next) {
-
-//     User.findById(req.session.userId).exec(function (error, user) {
-//         if (error) {
-//             return next(error);
-//         } else {      
-//             if (user === null) {     
-//                 var err = new Error('Not authorized! Go back!');
-//                 err.status = 400;
-//                 return next(err);
-//             } else {
-//                 return next();
-//             }
-//         }
-//     });
-// }
 module.exports = auth

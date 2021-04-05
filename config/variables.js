@@ -1,26 +1,34 @@
 /* This file contains variables used by the API and can change depends on the context */
 
-const dbHost = process.env.HOST || 'localhost'
+/**
+ * @const dbHost            Database Host
+ * @const dbName            Database Name
+ * @const uriProd           Production Database uri
+ * @const uriDev            Development Database uri
+ * @const port              Server PORT
+ * @const secretTokenJWT    Secret Token JWT to encode tokens
+ * @var   env               Actual Environment
+ */
+const dbHost = process.env.HOST || 'localhost'  
 const dbName = process.env.DB_NAME ||'users_db'
-const uriProd = `mongodb+srv://feliamunda:${process.env.MONGODB_PASSWORD_ATLAS}@cluster0.8xhim.mongodb.net/${ dbName }?retryWrites=true&w=majority`; 
-const uriDev = `mongodb://${ dbHost }/${ dbName }`
+const dbUriProd = `mongodb+srv://${process.env.MONGODB_USER_ATLAS}:${process.env.MONGODB_PASSWORD_ATLAS}@cluster0.8xhim.mongodb.net/${ dbName }?retryWrites=true&w=majority`; 
+const dbUriDev = `mongodb://${ dbHost }/${ dbName }`
 const port = process.env.PORT || 3000;
 const secretTokenJWT= process.env.SECRET_JWT || "secret"
+const env = process.env.ENVIRONMENT || 'dev';
 
-let uriDB = '';
-let env = process.env.ENVIRONMENT || 'dev';
+let dbUri = '';
 
-if (process.env.ENVIRONMENT == 'prod'){
+if (env == 'prod'){
     console.log('Ambiente de Producción')
-    uriDB = uriProd
+    dbUri = dbUriProd
 }   
 else{
     console.log('Ambiente de Desarrollo')
-    uriDB = uriDev
+    dbUri = dbUriDev
 }
-
 module.exports= {
-    uriDB,
+    dbUri,
     dbName,
     dbHost,
     env,

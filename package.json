@@ -6,8 +6,7 @@
     "license": "GPL_3",
     "main": "server.js",
     "scripts": {
-        "test": "nodemon server.js",
-        "start": "node server.js"
+        "start": "nodemon server.js"
     },
     "dependencies": {
         "bcrypt": "^5.0.1",

@@ -8,7 +8,7 @@ var functions = require('../functions/functions')
 module.exports= {
     connect : () => {
         mongoose.connect(                                                               //This method establish the connection with the DATABASE
-            variables.uriDB,                                                            //URI to the Database Server
+            variables.dbUri,                                                            //URI to the Database Server
             { useNewUrlParser: true , useUnifiedTopology: true , useCreateIndex:true }, //Options to avoid deprecated issues
             (err)=>{
                 if (err)
