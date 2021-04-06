@@ -3,7 +3,6 @@
 
   &#xa0;
 
-  <!-- <a href="https://users_api.netlify.app">Demo</a> -->
 </div>
 
 <h1 align="center">Users API</h1>
@@ -17,20 +16,7 @@
 
   <img alt="License" src="https://img.shields.io/github/license/feliamunda/users_api?color=56BEB8">
 
-  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/feliamunda/users_api?color=56BEB8" /> 
-
-  <img alt="Github forks" src="https://img.shields.io/github/forks/feliamunda/users_api?color=56BEB8" /> 
-
-  <img alt="Github stars" src="https://img.shields.io/github/stars/feliamunda/users_api?color=56BEB8" /> -->
 </p>
-
-<!-- Status -->
-
-<!-- <h4 align="center"> 
-	🚧  Users_api 🚀 Under construction...  🚧
-</h4> 
-
-<hr> -->
 
 <p align="center">
   <a href="#dart-about">Acerca de</a> &#xa0; | &#xa0; 
@@ -46,7 +32,7 @@
 
 ## :dart: Acerca de ##
 
-Esta es una API para listar usuarios con un CRUD completo para ello y autenticar usuarios a traves de métodos de encriptación que aseguran su información
+Esta es una API para listar usuarios con un CRUD completo para ello y autenticar usuarios a traves de métodos de encriptación que aseguran su información, funciona como parte de un proyecto completo [Users-Api](https://github.com/feliamunda/users_app)
 
 ## :sparkles: Características ##
 
@@ -69,15 +55,19 @@ Antes de empezar :checkered_flag:, necesita tener [Git](https://git-scm.com) y [
 Es necesario configurar algunas variables de entorno:
 
 REQUERIDAS
+- MONGODB_USER_ATLAS -> Para la conexión a la BD en producción
 - MONGODB_PASSWORD_ATLAS -> Para la conexión a la BD en producción
 
 OPCIONALES
-- HOST
-- PORT
-- DB_NAME
-- SECRET_JWT -> Si se cambia esta llave pueden dejar de funcionar las autenticaciones encriptadas con otra llave
+- ENVIRONMENT (default: dev) -> Para producción setearla a prod
+- HOST (default: localhost)
+- PORT (default: 3000)
+- DB_NAME (default: users_db)
+- SECRET_JWT (default: secret) -> Si se cambia esta llave pueden dejar de funcionar las autenticaciones encriptadas con otra llave
 
-En desarrollo es necesario crear la base 
+En desarrollo es necesario crear la base de datos con mongo 
+
+Para usar el servicio de mongoAtlas es necesario habilitar la ip host desde su panel de control
 
 ## :checkered_flag: Empezando ##
 
@@ -100,7 +90,7 @@ $ npm run start
 # El servidor se inicializará en <http://localhost:3000>
 ```
 
-Leer documentación [API Docs](https://documenter.getpostman.com/view/7918914/TzCMeoep)
+Documentación de uso [API Docs](https://documenter.getpostman.com/view/7918914/TzCMeoep)
 
 ## :memo: License ##
 

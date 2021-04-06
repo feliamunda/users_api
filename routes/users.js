@@ -90,7 +90,7 @@ router.put('/',(req,res)=>{
  */
 router.delete('/',(req,res)=>{    
     if (req.query.username){ 
-        user.updateOne({username:req.query.username},req.body).then(                                          
+        user.deleteOne({username:req.query.username}).then(                                                
             (r)=>{
                 res.status(200).send(r)
             },
@@ -100,15 +100,7 @@ router.delete('/',(req,res)=>{
         )
     }else{
         res.status(400).send(functions.handleError(errorTypes.reqValues.msg,errorTypes.reqValues.code))
-    }                                                                            //Method DELETE Handler
-    user.deleteOne({username:req.query.username}).then(                                                     //Delete the first record which match with the filter username
-        (r)=>{
-            res.status(200).send(r)
-        },
-        (err)=>{
-            res.status(500).send(functions.handleError(errorTypes.default.msg,err))
-        }
-    )
+    }                                                                       
 })
 /**
  * This Method Hadle GET type request for '/api/exist' path

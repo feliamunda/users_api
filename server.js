@@ -75,7 +75,7 @@ app.post('/auth',async (req,res)=>{
         }
             
     }).catch((err)=>{
-        res.status(401).send(functions.handleError(`Ha ocurrido un error al autenticarse`,err))                                             //If any errors occurs while user is consulting
+        res.status(500).send(functions.handleError(`Ha ocurrido un error al autenticarse`,err))                                             //If any errors occurs while user is consulting
     });
 })
 
