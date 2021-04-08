@@ -54,13 +54,13 @@ Antes de empezar :checkered_flag:, necesita tener [Git](https://git-scm.com) y [
 
 Es necesario configurar algunas variables de entorno:
 
-REQUERIDAS
+REQUERIDAS pARA USAR BASE DE DATOS EXTERNA MONGOATLAS
 - MONGODB_USER_ATLAS -> Para la conexión a la BD en producción
 - MONGODB_PASSWORD_ATLAS -> Para la conexión a la BD en producción
 
 OPCIONALES
-- ENVIRONMENT (default: dev) -> Para producción setearla a prod
-- HOST (default: localhost)
+- ENVIRONMENT (default: dev) 
+- MONGO_HOST (default: localhost)
 - PORT (default: 3000)
 - DB_NAME (default: users_db)
 - SECRET_JWT (default: secret) -> Si se cambia esta llave pueden dejar de funcionar las autenticaciones encriptadas con otra llave
